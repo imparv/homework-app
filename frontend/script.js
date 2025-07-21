@@ -1,37 +1,41 @@
-document.addEventListener('DOMContentLoaded', () => {
+// Interactive background floating icons follow mouse movement
+(() => {
+  const bgIcons = document.querySelectorAll('.bg-icon');
+
+  window.addEventListener('mousemove', (e) => {
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+
+    bgIcons.forEach((icon, index) => {
+      const intensity = (index + 1) * 5; // Different for each icon
+      const moveX = (e.clientX - centerX) / intensity;
+      const moveY = (e.clientY - centerY) / intensity;
+      icon.style.transform = `translate(${moveX}px, ${moveY}px)`;
+    });
+  });
+})();
+
+// Placeholder: Load homework dynamically (replace with your actual code)
+function loadHomework() {
   const homeworkList = document.getElementById('homework-list');
-  const downloadsList = document.getElementById('downloads-list');
+  if (!homeworkList) return;
 
-  // Example static data (replace with Firebase later)
-  const homework = [
-    "Math - Solve exercise 6.2",
-    "Science - Read chapter 4 and write notes",
-    "English - Write an essay on 'My Hobby'"
+  // Example static homework data
+  const homeworkItems = [
+    'Math: Complete exercise 5.3 (Q1–Q5) from NCERT book.',
+    'English: Write a summary of Chapter 4.',
+    'Science: Draw and label plant cell parts.',
   ];
 
-  const notes = [
-    { name: "Math Notes (PDF)", link: "#" },
-    { name: "Science Diagrams", link: "#" },
-    { name: "English Grammar Sheet", link: "#" }
-  ];
+  homeworkList.innerHTML = ''; // Clear loading message
 
-  // Populate homework
-  homeworkList.innerHTML = "";
-  homework.forEach(item => {
+  homeworkItems.forEach((item) => {
     const li = document.createElement('li');
+    li.className = 'list-group-item';
     li.textContent = item;
     homeworkList.appendChild(li);
   });
+}
 
-  // Populate downloads
-  downloadsList.innerHTML = "";
-  notes.forEach(note => {
-    const li = document.createElement('li');
-    const a = document.createElement('a');
-    a.href = note.link;
-    a.textContent = note.name;
-    a.target = "_blank";
-    li.appendChild(a);
-    downloadsList.appendChild(li);
-  });
-});
+// Call loadHomework when page loads
+window.addEventListener('DOMContentLoaded', loadHomework);

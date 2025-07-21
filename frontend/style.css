@@ -1,62 +1,122 @@
-body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+/* ===== Reset and basics ===== */
+* {
   margin: 0;
   padding: 0;
-  background-color: #f4f4f4;
+  box-sizing: border-box;
 }
 
-header {
-  background-color: #004466;
-  color: white;
-  padding: 1rem 2rem;
-}
-
-header h1 {
-  margin: 0;
-}
-
-nav a {
-  color: #fff;
-  margin-right: 1rem;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-main {
-  padding: 2rem;
-}
-
-section {
-  margin-bottom: 2rem;
-  background: white;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-section h2 {
-  margin-top: 0;
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f8f9fa;
   color: #333;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-ul {
-  padding-left: 1.2rem;
+/* ===== Interactive background container and icons ===== */
+#interactive-bg {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none; /* let clicks go through */
+  overflow: hidden;
+  z-index: 0; /* behind all content */
 }
 
+.bg-icon {
+  position: absolute;
+  width: 80px;
+  opacity: 0.15;
+  user-select: none;
+  transition: transform 0.3s ease;
+  animation: floatY 6s ease-in-out infinite;
+}
+
+.icon1 { top: 20%; left: 15%; }
+.icon2 { top: 50%; left: 70%; }
+.icon3 { top: 75%; left: 40%; }
+
+@keyframes floatY {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* ===== Ensure content layers above background ===== */
+body > *:not(#interactive-bg) {
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== Navbar overrides (optional, Bootstrap already styles) ===== */
+.navbar {
+  box-shadow: 0 2px 4px rgb(0 0 0 / 0.1);
+}
+
+/* ===== Main content ===== */
+main.container {
+  flex: 1; /* grow to fill vertical space */
+}
+
+/* ===== Section headings ===== */
+h2.text-primary {
+  color: #0d6efd; /* Bootstrap primary blue */
+  margin-bottom: 1.5rem;
+}
+
+/* ===== Homework list styling ===== */
+#homework-list {
+  list-style: none;
+}
+
+#homework-list li {
+  background: #ffffff;
+  border: 1px solid #dee2e6;
+  padding: 12px 20px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.05);
+}
+
+/* ===== Downloads list styling ===== */
+#downloads ul.list-group {
+  max-width: 400px;
+}
+
+#downloads li.list-group-item {
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+#downloads li.list-group-item a {
+  color: #0d6efd;
+  text-decoration: none;
+}
+
+#downloads li.list-group-item a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Footer ===== */
 footer {
+  background-color: #0d6efd; /* Bootstrap primary */
+  color: #f8f9fa;
+  padding: 12px 0;
   text-align: center;
-  padding: 1rem;
-  background-color: #ddd;
   font-size: 0.9rem;
+  margin-top: auto;
 }
 
-@media (max-width: 600px) {
-  nav a {
-    display: block;
-    margin: 0.5rem 0;
+/* ===== Responsive tweaks ===== */
+@media (max-width: 576px) {
+  .bg-icon {
+    width: 50px;
   }
 
-  main {
-    padding: 1rem;
+  #downloads ul.list-group {
+    max-width: 100%;
   }
 }
