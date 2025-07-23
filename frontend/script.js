@@ -1,41 +1,57 @@
-// Interactive background floating icons follow mouse movement
-(() => {
-  const bgIcons = document.querySelectorAll('.bg-icon');
+// Import Firebase modules
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-  window.addEventListener('mousemove', (e) => {
-    const centerX = window.innerWidth / 2;
-    const centerY = window.innerHeight / 2;
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyBRXOSaE7kD73aElC_4EcjswfyCBjQseNI",
+  authDomain: "homework-app-9b95f.firebaseapp.com",
+  projectId: "homework-app-9b95f",
+  storageBucket: "homework-app-9b95f.appspot.com",  // fixed typo
+  messagingSenderId: "145897834934",
+  appId: "1:145897834934:web:2eba3483c605a6b538d917",
+  measurementId: "G-VTXM1E72LF"
+};
 
-    bgIcons.forEach((icon, index) => {
-      const intensity = (index + 1) * 5; // Different for each icon
-      const moveX = (e.clientX - centerX) / intensity;
-      const moveY = (e.clientY - centerY) / intensity;
-      icon.style.transform = `translate(${moveX}px, ${moveY}px)`;
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// Load homework from Firestore
+async function loadHomework() {
+  const list = document.getElementById('all-homework-list');  // fixed ID
+  if (!list) return;
+
+  list.innerHTML = '<li class="list-group-item">Loading homework...</li>';
+
+  try {
+    const homeworkRef = collection(db, 'homeworks');
+    const q = query(homeworkRef, orderBy("date", "desc"));
+    const snapshot = await getDocs(q);
+
+    if (snapshot.empty) {
+      list.innerHTML = '<li class="list-group-item">No homework found.</li>';
+      return;
+    }
+
+    list.innerHTML = '';
+
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      const subject = data.subject || 'No subject';
+      const details = data.details || 'No details provided';
+
+      const li = document.createElement('li');
+      li.className = 'list-group-item';
+      li.textContent = `${subject}: ${details}`;
+      list.appendChild(li);
     });
-  });
-})();
 
-// Placeholder: Load homework dynamically (replace with your actual code)
-function loadHomework() {
-  const homeworkList = document.getElementById('homework-list');
-  if (!homeworkList) return;
-
-  // Example static homework data
-  const homeworkItems = [
-    'Math: Complete exercise 5.3 (Q1–Q5) from NCERT book.',
-    'English: Write a summary of Chapter 4.',
-    'Science: Draw and label plant cell parts.',
-  ];
-
-  homeworkList.innerHTML = ''; // Clear loading message
-
-  homeworkItems.forEach((item) => {
-    const li = document.createElement('li');
-    li.className = 'list-group-item';
-    li.textContent = item;
-    homeworkList.appendChild(li);
-  });
+  } catch (error) {
+    list.innerHTML = `<li class="list-group-item text-danger">Error loading homework: ${error.message}</li>`;
+  }
 }
 
-// Call loadHomework when page loads
+// Run when DOM is ready
 window.addEventListener('DOMContentLoaded', loadHomework);
+

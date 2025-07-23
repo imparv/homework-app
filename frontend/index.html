@@ -8,67 +8,37 @@
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 
-  <!-- Custom CSS -->
   <style>
-    /* Interactive background container */
     #interactive-bg {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
       pointer-events: none;
       overflow: hidden;
-      z-index: 0; /* Behind everything */
+      z-index: 0;
     }
-    /* Floating icons style */
     .bg-icon {
       position: absolute;
       width: 80px;
       opacity: 0.15;
       user-select: none;
-      transition: transform 0.3s ease;
       animation: floatY 6s ease-in-out infinite;
     }
     .icon1 { top: 20%; left: 15%; }
     .icon2 { top: 50%; left: 70%; }
     .icon3 { top: 75%; left: 40%; }
-
     @keyframes floatY {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-10px); }
     }
-
-    /* Ensure main content is above background */
     body > *:not(#interactive-bg) {
       position: relative;
       z-index: 1;
     }
   </style>
 </head>
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyBRXOSaE7kD73aElC_4EcjswfyCBjQseNI",
-    authDomain: "homework-app-9b95f.firebaseapp.com",
-    projectId: "homework-app-9b95f",
-    storageBucket: "homework-app-9b95f.firebasestorage.app",
-    messagingSenderId: "145897834934",
-    appId: "1:145897834934:web:2eba3483c605a6b538d917",
-    measurementId: "G-VTXM1E72LF"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
 <body>
-
-  <!-- Interactive floating background -->
+  <!-- Floating background -->
   <div id="interactive-bg">
     <img src="https://cdn-icons-png.flaticon.com/512/1250/1250680.png" class="bg-icon icon1" alt="Book" />
     <img src="https://cdn-icons-png.flaticon.com/512/3595/3595456.png" class="bg-icon icon2" alt="Pencil" />
@@ -79,44 +49,23 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
       <a class="navbar-brand" href="index.html">📘 Homework Hub</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
-
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="index.html">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="homework.html">Homework</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="timetable.html">Timetable</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="syllabus.html">Syllabus</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="contact.html">Contact</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="upload.html">Upload (Admin)</a>
-          </li>
+          <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="homework.html">Homework</a></li>
+          <li class="nav-item"><a class="nav-link" href="timetable.html">Timetable</a></li>
+          <li class="nav-item"><a class="nav-link" href="syllabus.html">Syllabus</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="upload.html">Upload (Admin)</a></li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <!-- Main content -->
+  <!-- Main Content -->
   <main class="container py-5">
     <section id="today-homework">
       <h2 class="mb-4 text-primary">Today's Homework</h2>
@@ -136,22 +85,71 @@
 
   <!-- Footer -->
   <footer class="bg-primary text-light text-center py-3 mt-auto">
-    <p class="mb-0">&copy; 2025 / homework resources by parv 
-     email-iamparv.r@gmail.com
-    </p>
+    <p class="mb-0">&copy; 2025 / homework resources by Parv | Email: iamparv.r@gmail.com</p>
   </footer>
 
-  <!-- Bootstrap JS Bundle -->
+  <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Interactive background mouse effect -->
+  <!-- Firebase Compat SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    // Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyBRXOSaE7kD73aElC_4EcjswfyCBjQseNI",
+      authDomain: "homework-app-9b95f.firebaseapp.com",
+      projectId: "homework-app-9b95f",
+      storageBucket: "homework-app-9b95f.appspot.com",
+      messagingSenderId: "145897834934",
+      appId: "1:145897834934:web:2eba3483c605a6b538d917",
+      measurementId: "G-VTXM1E72LF"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    function loadHomework() {
+      const list = document.getElementById("homework-list");
+      list.innerHTML = '<li class="list-group-item">Loading homework...</li>';
+
+      db.collection("homeworks")
+        .orderBy("date", "desc")
+        .limit(5)
+        .get()
+        .then(snapshot => {
+          if (snapshot.empty) {
+            list.innerHTML = '<li class="list-group-item">No homework found.</li>';
+            return;
+          }
+
+          list.innerHTML = '';
+          snapshot.forEach(doc => {
+            const data = doc.data();
+            const subject = data.subject || "Unknown Subject";
+            const task = data.task || data.details || data.description || "No task provided";
+            const li = document.createElement("li");
+            li.className = "list-group-item";
+            li.textContent = `${subject}: ${task}`;
+            list.appendChild(li);
+          });
+        })
+        .catch(error => {
+          console.error("Error loading homework:", error);
+          list.innerHTML = '<li class="list-group-item text-danger">Error loading homework.</li>';
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", loadHomework);
+  </script>
+
+  <!-- Floating icon effect -->
   <script>
     const bgIcons = document.querySelectorAll('.bg-icon');
-
     window.addEventListener('mousemove', (e) => {
       const centerX = window.innerWidth / 2;
       const centerY = window.innerHeight / 2;
-
       bgIcons.forEach((icon, index) => {
         const intensity = (index + 1) * 5;
         const moveX = (e.clientX - centerX) / intensity;
@@ -160,8 +158,5 @@
       });
     });
   </script>
-
-  <!-- Your existing script.js for homework loading -->
-  <script src="script.js"></script>
 </body>
 </html>
