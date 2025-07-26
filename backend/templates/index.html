@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block title %}
+  <!-- Main Content -->
+  <main class="container py-5">
+    <section id="today-homework">
+      <h2 class="mb-4 text-primary">Today's Homework</h2>
+      <ul class="list-group" id="homework-list">
+        <li class="list-group-item">Loading homework...</li>
+      </ul>
+    </section>
+
+    <section id="downloads" class="mt-5">
+      <h2 class="mb-4 text-primary">Downloads</h2>
+      <ul class="list-group">
+        <li class="list-group-item"><a href="#" class="text-decoration-none">Download File 1</a></li>
+        <li class="list-group-item"><a href="#" class="text-decoration-none">Download File 2</a></li>
+      </ul>
+    </section>
+  </main>
+
+  {% endblock %}
