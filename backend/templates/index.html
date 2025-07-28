@@ -1,21 +1,58 @@
 {% extends "layout.html" %}
-{% block title %}
-  <!-- Main Content -->
-  <main class="container py-5">
-    <section id="today-homework">
-      <h2 class="mb-4 text-primary">Today's Homework</h2>
-      <ul class="list-group" id="homework-list">
-        <li class="list-group-item">Loading homework...</li>
-      </ul>
-    </section>
 
-    <section id="downloads" class="mt-5">
-      <h2 class="mb-4 text-primary">Downloads</h2>
-      <ul class="list-group">
-        <li class="list-group-item"><a href="#" class="text-decoration-none">Download File 1</a></li>
-        <li class="list-group-item"><a href="#" class="text-decoration-none">Download File 2</a></li>
-      </ul>
-    </section>
-  </main>
+{% block title %}Home - Homework Hub{% endblock %}
 
-  {% endblock %}
+{% block content %}
+<main class="container py-4">
+
+  <!-- Welcome Section -->
+  <div class="mb-5 text-center">
+    <h1 class="display-5 text-primary">Welcome to Homework Hub!</h1>
+    <p class="lead">Your one-stop platform for homework, resources, and updates.</p>
+  </div>
+
+  <!-- Today's Homework -->
+  <section id="today-homework" class="mb-5">
+    <h2 class="text-success mb-3">📚 Today's Homework</h2>
+    <ul class="list-group" id="homework-list">
+      <li class="list-group-item">Loading homework...</li>
+      <!-- Dynamic items will be inserted via JS or Jinja -->
+    </ul>
+  </section>
+
+  <!-- Announcements Section -->
+  <section id="announcements" class="mb-5">
+    <h2 class="text-warning mb-3">📢 Announcements</h2>
+    <div class="alert alert-info" role="alert">
+      Stay tuned! Important updates will appear here.
+    </div>
+  </section>
+
+  <!-- Downloads Section -->
+  <section id="downloads" class="mb-5">
+    <h2 class="text-primary mb-3">📥 Downloads</h2>
+    <ul class="list-group">
+      <li class="list-group-item"><a href="#" class="text-decoration-none">📄 Download File 1</a></li>
+      <li class="list-group-item"><a href="#" class="text-decoration-none">📄 Download File 2</a></li>
+    </ul>
+  </section>
+
+  <!-- Quick Links -->
+  <section class="row text-center">
+    <h2 class="mb-4 text-secondary">🔗 Quick Links</h2>
+    <div class="col-md-3 mb-3">
+      <a href="{{ url_for('homework') }}" class="btn btn-outline-primary w-100">Homework</a>
+    </div>
+    <div class="col-md-3 mb-3">
+      <a href="{{ url_for('timetable') }}" class="btn btn-outline-success w-100">Timetable</a>
+    </div>
+    <div class="col-md-3 mb-3">
+      <a href="{{ url_for('syllabus') }}" class="btn btn-outline-warning w-100">Syllabus</a>
+    </div>
+    <div class="col-md-3 mb-3">
+      <a href="{{ url_for('contact') }}" class="btn btn-outline-info w-100">Contact Us</a>
+    </div>
+  </section>
+
+</main>
+{% endblock %}

@@ -14,19 +14,19 @@ db = firestore.client()
 @app.route("/")
 def home():
     return render_template("index.html")
-
+@app.route("/homework.html")
 def homework():
     return render_template("homework.html")
-
+@app.route("/timetable.html")
 def timetable():
     return render_template("timetable.html")
-
+@app.route("/contact.html")
 def contact():
     return render_template("contact.html")
-
+@app.route("/syllabus.html")
 def syllabus():
     return render_template("syllabus.html")
-
+@app.route("/upload.html")
 def upload():
     return render_template("upload.html")
 
