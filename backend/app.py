@@ -10,11 +10,11 @@ firebase_admin.initialize_app(cred)
 
 
 db = firestore.client()
-class contact:
+class Contact:
     def __init__(self,name,email,subject,message):
         self.name = name
         self.email = email
-        self.subject = message
+        self.subject = subject
         self.message = message 
     
     def to_dict(self):
@@ -26,10 +26,6 @@ class contact:
         }
 
     
-
-
-
-
 
 
 
@@ -45,20 +41,24 @@ def homework():
 def timetable():
     return render_template("timetable.html")
 
-@app.route("/contact",method = ['GET','POST'])
+@app.route("/contact",methods = ['GET','POST'])
 def contact():
-    if(request.method==['POST']):
-        name = request.form.get('name', '').strip()
-        email = request.form.get('email', '').strip()
-        message = request.form.get('message', '').strip()
+    if request.method == 'POST':
+
+        name = request.form.get('name' )
+        email = request.form.get('email')
+        subject = request.form.get('subject')
+        message = request.form.get('message')
+
+
+        new_contact = Contact(name, email, subject, message)
+        db.collection("contact").add(new_contact.to_dict())  
 
 
 
 
 
-
-
-    return render_template("contact.html")
+    return render_template("contact.html",success=True)
 
 @app.route("/syllabus")
 def syllabus():
@@ -67,8 +67,6 @@ def syllabus():
 @app.route("/upload")
 def upload():
     return render_template("upload.html")
-
-
 
 
 
