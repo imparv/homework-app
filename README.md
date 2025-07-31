@@ -4,8 +4,9 @@ THIS APP IS CURRENTLY IN CONSTRUCTION
 
 
 TEAM----
-1 PARV RATHEE
-2 
+1 PARV RATHEE <br>
+2 Anadh Agrahari <br>
+Baki log apna dekh lo
 
 
 
