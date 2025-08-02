@@ -34,20 +34,20 @@ class Contact:
 # homepage
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template("index.html",params=params)
  
  # homework page
 @app.route("/homework")
 def homework():
-    return render_template("homework.html")
+    return render_template("homework.html",params=params)
 
 #timetable page
 @app.route("/timetable")
 def timetable():
-    return render_template("timetable.html")
+    return render_template("timetable.html",params=params)
 
 #contact
-@app.route("/contact",methods = ['GET','POST'])
+@app.route("/contact",methods = ['GET','POST'],params=params)
 def contact():
     if request.method == 'POST':
 
@@ -63,14 +63,14 @@ def contact():
     return render_template("contact.html",success=True) 
 
 # syllabus page
-@app.route("/syllabus")
+@app.route("/syllabus",params=params)
 def syllabus():
-    return render_template("syllabus.html")
+    return render_template("syllabus.html",params=params)
 
 # upload page
 @app.route("/upload")
 def upload():
-    return render_template("upload.html")
+    return render_template("upload.html",params=params)
 
 
 
