@@ -3,8 +3,8 @@
 {% block title %}Timetable - Homework Hub{% endblock %}
 
 {% block content %}
-<main class="container py-5">
-  <h2 class="text-center mb-4">📅 Weekly Class Timetable</h2>
+<main class="container py-6">
+  <h2 class="text-center mb-4">📅  Class 9th Timetable</h2>
   <div class="table-responsive">
     <table class="table table-bordered table-striped">
       <thead class="table-dark">
@@ -16,54 +16,22 @@
           <th>Break</th>
           <th>4th Period</th>
           <th>5th Period</th>
+          <th>6th Period</th>
         </tr>
       </thead>
       <tbody>
+        {% for entry in timetable %}
         <tr>
-          <td>Monday</td>
-          <td>Math</td>
-          <td>Science</td>
-          <td>English</td>
+          <td>{{ entry.day }}</td>
+          <td>{{ entry.period1 }}</td>
+          <td>{{ entry.period2 }}</td>
+          <td>{{ entry.period3 }}</td>
           <td>🍎</td>
-          <td>Computer</td>
-          <td>Social</td>
+          <td>{{ entry.period4 }}</td>
+          <td>{{ entry.period5 }}</td>
+          <td>{{ entry.period6 }}</td>
         </tr>
-        <tr>
-          <td>Tuesday</td>
-          <td>English</td>
-          <td>Math</td>
-          <td>Science</td>
-          <td>🍎</td>
-          <td>Hindi</td>
-          <td>Art</td>
-        </tr>
-        <tr>
-          <td>Wednesday</td>
-          <td>Math</td>
-          <td>English</td>
-          <td>Computer</td>
-          <td>🍎</td>
-          <td>Science</td>
-          <td>Social</td>
-        </tr>
-        <tr>
-          <td>Thursday</td>
-          <td>Hindi</td>
-          <td>Science</td>
-          <td>English</td>
-          <td>🍎</td>
-          <td>Math</td>
-          <td>Art</td>
-        </tr>
-        <tr>
-          <td>Friday</td>
-          <td>Computer</td>
-          <td>Social</td>
-          <td>Hindi</td>
-          <td>🍎</td>
-          <td>English</td>
-          <td>Math</td>
-        </tr>
+        {% endfor %}
       </tbody>
     </table>
   </div>

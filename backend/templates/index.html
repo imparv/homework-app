@@ -14,16 +14,25 @@
   <!-- Today's Homework -->
   <section id="today-homework" class="mb-5">
     <h2 class="text-success mb-3">📚 Today's Homework</h2>
-    <ul class="list-group" id="homework-list">
-      <li class="list-group-item">Loading homework...</li>
-      <!-- Dynamic items will be inserted via JS or Jinja -->
+    {% if homework_data %}
+    <ul class="list-group">
+      {% for hw in homework_data %}
+      <li class="list-group-item border-light" style="background-color: rgba(173, 216, 230, 0.6);">
+        <strong>{{ hw.subject or 'No Subject' }}</strong><br>
+        {{ hw.details or hw.description or 'No Details Provided' }}<br>
+        <small class="text-muted">Due: {{ hw.date or hw.due_date or 'No Date' }}</small>
+      </li>
+      {% endfor %}
     </ul>
+    {% else %}
+    <div class="alert alert-info" style="background-color: rgba(173, 216, 230, 0.6);">No homework found.</div>
+    {% endif %}
   </section>
 
   <!-- Announcements Section -->
   <section id="announcements" class="mb-5">
     <h2 class="text-warning mb-3">📢 Announcements</h2>
-    <div class="alert alert-info" role="alert">
+    <div class="alert alert-info" role="alert" style="background-color: rgba(173, 216, 230, 0.6);">
       Stay tuned! Important updates will appear here.
     </div>
   </section>
@@ -32,8 +41,12 @@
   <section id="downloads" class="mb-5">
     <h2 class="text-primary mb-3">📥 Downloads</h2>
     <ul class="list-group">
-      <li class="list-group-item"><a href="#" class="text-decoration-none">📄 Download File 1</a></li>
-      <li class="list-group-item"><a href="#" class="text-decoration-none">📄 Download File 2</a></li>
+      <li class="list-group-item border-light" style="background-color: rgba(173, 216, 230, 0.6);">
+        <a href="#" class="text-decoration-none text-dark">📄 Download File 1</a>
+      </li>
+      <li class="list-group-item border-light" style="background-color: rgba(173, 216, 230, 0.6);">
+        <a href="#" class="text-decoration-none text-dark">📄 Download File 2</a>
+      </li>
     </ul>
   </section>
 

@@ -1,79 +1,139 @@
-from flask import Flask, render_template,request
+from flask import Flask, render_template, request
+from flask_mail import Mail
 import firebase_admin
-from firebase_admin import credentials , firestore
+from firebase_admin import credentials, firestore
 import json
 
-
-with open('C:\\Users\\cc\\Documents\\gogu\\our-app\\backend\\config.json','r') as c:
+# Load configuration
+with open('C:\\Users\\cc\\Documents\\gogu\\our-app\\backend\\config.json', 'r') as c:
     params = json.load(c)["params"]
 
-app= Flask(__name__)
+app = Flask(__name__)
+app.config.update(
+    MAIL_SERVER='smtp.gmail.com',
+    MAIL_PORT=465,
+    MAIL_USE_SSL=True,
+    MAIL_USERNAME=params['mail-user'],
+    MAIL_PASSWORD=params['mail-pass']
+)
+mail = Mail(app)
 
-#firebase admin 
+# Firebase admin initialization
 cred = credentials.Certificate("C:\\Users\\cc\\Documents\\gogu\\our-app\\.gitignore\\servicekey.json")
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
-# contact class to submit the form to firebase
-class Contact:
-    def __init__(self,name,email,subject,message):
-        self.name = name
-        self.email = email
-        self.subject = subject
-        self.message = message 
-    
-    def to_dict(self):
-        return {
-            "name": self.name,
-            "email": self.email,
-            "subject": self.subject,
-            "message": self.message
-        }
-# routes start
+#timetable class
 
-# homepage
+def Timetable(day,period1,period2,period3,period4,period5,period6,dayOeder):
+    return {
+        "day":  day,
+        "period1": period1,
+        "period2": period2,
+        "period3": period3,
+        "period4": period4,
+        "period5": period5,
+        "period6": period6,
+        "dayOrder": dayOeder
+    }
+
+# Contact class
+def Contact(name, email, subject, message):
+    return {
+        "name": name,
+        "email": email,
+        "subject": subject,
+        "message": message
+    }
+
+# Homework class
+def Homework(subject, details, date):
+    return {
+        "subject": subject,
+        "details": details,
+        "date": date
+    }
+
+# Routes
 @app.route("/")
 def home():
-    return render_template("index.html",params=params)
- 
- # homework page
-@app.route("/homework")
-def homework():
-    return render_template("homework.html",params=params)
+    homework_list = []
+    try:
+        homework_ref = db.collection("homeworks")
+        docs = homework_ref.stream()
+        for doc in docs:
+            data = doc.to_dict()
+            hw = Homework(data.get("subject"), data.get("details"), data.get("date"))
+            homework_list.append(hw)
+    except Exception as e:
+        print("Error fetching homework:", e)
+    return render_template("index.html", params=params, homework_data=homework_list)
 
-#timetable page
+@app.route("/homework", methods=['GET'])
+def homework():
+    homework_list = []
+    try:
+        homework_ref = db.collection("homeworks")
+        docs = homework_ref.stream()
+        for doc in docs:
+            data = doc.to_dict()
+            hw = Homework(data.get("subject"), data.get("details"), data.get("date"))
+            homework_list.append(hw)
+    except Exception as e:
+        print("Error fetching homework:", e)
+
+    return render_template("homework.html", homework_data=homework_list, params=params)
+
 @app.route("/timetable")
 def timetable():
-    return render_template("timetable.html",params=params)
+     timetable_list = []
+     try:
+        timetable_ref = db.collection("timetable").order_by("dayOrder")
+        docs = timetable_ref.stream()
+        for doc in docs:
+            data = doc.to_dict()
+            tt = Timetable(
+                data.get("day"),
+                data.get("period1"),
+                data.get("period2"),
+                data.get("period3"),
+                data.get("period4"),
+                data.get("period5"),
+                data.get("period6"),
+                data.get("dayOrder")
+            )
+            timetable_list.append(tt)
+     except Exception as e:
+        print("Error fetching timetable:", e)
 
-#contact
-@app.route("/contact",methods = ['GET','POST'],params=params)
+     return render_template("timetable.html", params=params,timetable=timetable_list)
+
+@app.route("/contact", methods=['GET', 'POST'])
 def contact():
     if request.method == 'POST':
-
         name = request.form.get('name')
         email = request.form.get('email')
         subject = request.form.get('subject')
         message = request.form.get('message')
 
-        #define entry to send to fire base
-        new_contact = Contact(name, email, subject, message)
-        db.collection("contact").add(new_contact.to_dict())  
+        db.collection("contact").add(Contact(name, email, subject, message))
 
-    return render_template("contact.html",success=True) 
+        mail.send_message(
+            'Homework App Query from ' + name,
+            sender=email,
+            recipients=[params['mail-user']],
+            body=subject + "\n\n" + message + "\n\nfrom: " + email + "\n\nThank you"
+        )
 
-# syllabus page
-@app.route("/syllabus",params=params)
+    return render_template("contact.html", success=True, params=params)
+
+@app.route("/syllabus")
 def syllabus():
-    return render_template("syllabus.html",params=params)
+    return render_template("syllabus.html", params=params)
 
-# upload page
 @app.route("/upload")
 def upload():
-    return render_template("upload.html",params=params)
-
-
-
+    return render_template("upload.html", params=params)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True) 

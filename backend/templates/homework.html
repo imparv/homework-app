@@ -3,58 +3,45 @@
 {% block title %}All Homework - Homework Hub{% endblock %}
 
 {% block content %}
-<main class="container py-5">
+<main class="container py-5 position-relative">
+
+  <!-- Background icons for parallax effect -->
+  <div class="bg-icon position-absolute top-0 start-0 opacity-25" style="font-size: 6rem; z-index: -1;">📚</div>
+  <div class="bg-icon position-absolute top-50 start-50 translate-middle opacity-25" style="font-size: 8rem; z-index: -1;">📝</div>
+  <div class="bg-icon position-absolute bottom-0 end-0 opacity-25" style="font-size: 7rem; z-index: -1;">📖</div>
+
   <h2 class="text-primary mb-4">📚 All Homework</h2>
+
+  {% if homework_data %}
   <ul class="list-group" id="all-homework-list">
-    <li class="list-group-item">Loading homework...</li>
+    {% for hw in homework_data %}
+      <li class="list-group-item">
+        <strong>{{ hw.subject or 'No Subject' }}</strong><br>
+        {{ hw.details or hw.description or 'No Details Provided' }}<br>
+        <small class="text-muted">Due: {{ hw.date or hw.due_date or 'No Date' }}</small>
+      </li>
+    {% endfor %}
   </ul>
+  {% else %}
+    <div class="alert alert-info">No homework found.</div>
+  {% endif %}
+
 </main>
 {% endblock %}
 
 {% block scripts %}
 <script>
-  // Mouse background parallax effect
+  // Parallax background effect
   const bgIcons = document.querySelectorAll('.bg-icon');
   window.addEventListener('mousemove', (e) => {
     const centerX = window.innerWidth / 2;
     const centerY = window.innerHeight / 2;
     bgIcons.forEach((icon, index) => {
-      const intensity = (index + 1) * 5;
+      const intensity = (index + 1) * 15;
       const moveX = (e.clientX - centerX) / intensity;
       const moveY = (e.clientY - centerY) / intensity;
       icon.style.transform = `translate(${moveX}px, ${moveY}px)`;
     });
   });
-
-  // Firebase setup and fetching homework data
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-  const list = document.getElementById("all-homework-list");
-
-  db.collection("homeworks")
-    //.orderBy("date", "desc")
-    .get()
-    .then(querySnapshot => {
-      list.innerHTML = "";
-      if (querySnapshot.empty) {
-        list.innerHTML = "<li class='list-group-item'>No homework found.</li>";
-        return;
-      }
-
-      querySnapshot.forEach(doc => {
-        const data = doc.data();
-        const subject = data.subject || "No Subject";
-        const task = data.task || data.details || data.description || "No Task Provided";
-
-        const li = document.createElement("li");
-        li.className = "list-group-item";
-        li.textContent = `${subject}: ${task}`;
-        list.appendChild(li);
-      });
-    })
-    .catch(error => {
-      console.error("Error fetching homework:", error);
-      list.innerHTML = `<li class="list-group-item text-danger">Error loading homework: ${error.message}</li>`;
-    });
 </script>
 {% endblock %}
